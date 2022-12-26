@@ -126,21 +126,32 @@ select{
         color: #42515f;
         opacity: 1;
         background: transparent;
-        border: none;
         font-weight: 400;
         min-width: 140px;
         padding: 7px 7px;
+        border: none;
+        background: #f5f5f5;
+        margin-right: 30px;
         border: 1px solid #707070;
+        margin-left: 15px;
         cursor: pointer;
     }
     .submitButton{
         border: none;
         background: #f5f5f5;
         margin-right: 30px;
+        border: 1px solid #707070;
+        margin-left: 15px;
+      
     }
     .cancelButton{
         text-decoration: none;
         text-align: center;
+        border: none;
+        background: #f5f5f5;
+        margin-right: 30px;
+        border: 1px solid #707070;
+        margin-left: 15px;
     }
     @media only screen and (max-width: 960px){
         .cancelButton{
@@ -179,3 +190,4 @@ select{
             flex-direction: column-reverse;
             align-items: flex-start;
         }
+    }
