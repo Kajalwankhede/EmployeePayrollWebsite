@@ -129,7 +129,6 @@ select{
         font-weight: 400;
         min-width: 140px;
         padding: 7px 7px;
-        border: none;
         background: #f5f5f5;
         margin-right: 30px;
         border: 1px solid #707070;
@@ -137,7 +136,6 @@ select{
         cursor: pointer;
     }
     .submitButton{
-        border: none;
         background: #f5f5f5;
         margin-right: 30px;
         border: 1px solid #707070;
@@ -147,11 +145,17 @@ select{
     .cancelButton{
         text-decoration: none;
         text-align: center;
-        border: none;
         background: #f5f5f5;
         margin-right: 30px;
         border: 1px solid #707070;
         margin-left: 15px;
+    }
+
+    error-output{
+        margin-left: 10px;
+        font-size: 12px;
+        font-style: italic;
+        color: red;
     }
     @media only screen and (max-width: 960px){
         .cancelButton{
