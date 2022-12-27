@@ -159,3 +159,31 @@ const getSelectedValues = (propertyValue) => {  // taking value of name profile,
     return setItems;
 }
 
+
+const resetForm = () => {    //Resetting the form on clicking reset button
+    setValue('#name','');
+    unsetSelectedValues('[name = gender');
+    unsetSelectedValues('[name = department');
+    unsetSelectedValues('[name = profile');
+    setValue('#salary', ' ');
+    setValue('#day', '1');
+    setValue('#month', 'January');
+    setValue('#year', '2020');
+    setValue('#notes', '');
+}
+
+const unsetSelectedValues = (propertyValue) => {
+    let allItems = document.querySelectorAll(propertyValue);
+    allItems.forEach(item => {
+        item.checked = false;
+    });    
+}
+const setTextValue = (id, value)=>{
+    const element = document.querySelector(id);
+    element.textContent = value;
+}
+
+const setValue = (id, value)=>{
+    const element = document.querySelector(id);
+    element.value = value;
+}
