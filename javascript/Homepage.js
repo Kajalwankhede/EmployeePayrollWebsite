@@ -30,9 +30,9 @@ for (const employeePayrollData of employeePayrollList)
     <td>${employeePayrollData._salary}</td>
     <td>${employeePayrollData._startDate}</td>
     <td>
-    <img name="${employeePayrollData._id}" onclick="remove(this)"
+    <img id="${employeePayrollData._id}" onclick="remove(this)"
                           src="../images/delete-black-18dp.svg" alt="delete">
-      <img name="${employeePayrollData._id}" onclick="update(this)"
+      <img id="${employeePayrollData._id}" onclick="update(this)"
                                src="../images/create-black-18dp.svg" alt="edit">
      </td>
      </tr>
@@ -80,3 +80,13 @@ const createEmployeePayrollJSON = () => {
     return employeePayrollListLocal;
 }
 
+
+const remove = (node) => {
+    let employeePayrollData = employeePayrollList.find(empData => empData._id == node._id);
+    if(!employeePayrollData) return;
+    const index = employeePayrollList.map(empData => empData._id).indexOf(employeePayrollData._id);
+    employeePayrollList.splice(index, 1);
+    localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
+    document.querySelector(".emp-count").textContent = employeePayrollList.length;
+    createInnerHtml();
+} 
