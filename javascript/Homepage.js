@@ -1,32 +1,41 @@
-
+let employeePayrollList;
 window.addEventListener('DOMContentLoaded', (event) => {
+    employeePayrollList = getEmployeePayrollDataFromStorage();
+    document.querySelector(".emp-count").textContent = employeePayrollList.length;
     createInnerHtml();
+    localStorage.removeItem('editEmp');
 });
+
+const getEmployeePayrollDataFromStorage = () => {
+    return localStorage.getItem('EmployeePayrollList') ?
+                        JSON.parse(localStorage.getItem('EmployeePayrollList')) : [];
+}
+
+
 
 // Template literal ES6 feature
 const createInnerHtml = () => {
     const headerHtml = "<th></th><th>Name</th><th>Gender</th><th>Department</th>"+
                         "<th>Salary</th><th>Start Date</th><th>Actions</th>";
-
-let innerHtml = `${headerHtml}`;
-let employeePayrollList = createEmployeePayrollJSON();
- for (const employeePayrollData of employeePayrollList)
+                        let innerHtml = `${headerHtml}`;
+if(employeePayrollList.length==0)return;                    
+for (const employeePayrollData of employeePayrollList)
  {
-    innerHtml = `${innerHtml }
-     <tr>
-      <td><img class="Profile" src="${employeePayrollData._profilePic}" alt=""></td>
-      <td>${employeePayrollData._name}</td>
-      <td>${employeePayrollData._gender}</td>
-       <td>${getDeptHtml(employeePayrollData._department)}</td>
-       <td>${employeePayrollData._salary}</td>
-        <td>${employeePayrollData._startDate}</td>
-        <td>
-        <img name="${employeePayrollData._id}" onclick="remove(this)"
+   innerHtml = `${innerHtml}
+  <tr>
+    <td><img class="Profile" src="${employeePayrollData._profilePic}" alt=""></td>
+    <td>${employeePayrollData._name}</td>
+    <td>${employeePayrollData._gender}</td>
+    <td>${getDeptHtml(employeePayrollData._department)}</td>
+    <td>${employeePayrollData._salary}</td>
+    <td>${employeePayrollData._startDate}</td>
+    <td>
+    <img name="${employeePayrollData._id}" onclick="remove(this)"
                           src="../images/delete-black-18dp.svg" alt="delete">
-         <img name="${employeePayrollData._id}" onclick="update(this)"
+      <img name="${employeePayrollData._id}" onclick="update(this)"
                                src="../images/create-black-18dp.svg" alt="edit">
-        </td>
-         </tr>
+     </td>
+     </tr>
        `;
   }
                     
@@ -41,8 +50,8 @@ const getDeptHtml = (deptList) => {
 }
 
 const createEmployeePayrollJSON = () => {
-    let employeePayrollListLocal = [
-        {
+ let employeePayrollListLocal = [
+   {
             _name: 'Kajal Wankhede',
             _gender: 'Female',
             _department: [
