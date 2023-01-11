@@ -1,92 +1,105 @@
-let employeePayrollList;
-window.addEventListener('DOMContentLoaded', (event) => {
-    employeePayrollList = getEmployeePayrollDataFromStorage();
-    document.querySelector(".emp-count").textContent = employeePayrollList.length;
-    createInnerHtml();
-    localStorage.removeItem('editEmp');
+let empPayrollList=new Array();
+
+window.addEventListener("DOMContentLoaded", (event) => {
+    empPayrollList = getEmpDataFromLocalStorage();
+    document.querySelector(".emp-count").textContent = empPayrollList.length;
+    createInnerHTML();
+    localStorage.removeItem("editEmp");
 });
 
-const getEmployeePayrollDataFromStorage = () => {
-    return localStorage.getItem('EmployeePayrollList') ?
-                        JSON.parse(localStorage.getItem('EmployeePayrollList')) : [];
-}
+function getEmpDataFromLocalStorage(){
+    return localStorage.getItem("EmployeePayrollList") ?
+        JSON.parse(localStorage.getItem("EmployeePayrollList")) : [];
+};
 
+function createInnerHTML(){
+    const headerHTML=
+        "<th></th>"+
+        "<th>Emp Name</th>"+
+        "<th>Gender</th>"+
+        "<th>Department</th>"+
+        "<th>Salary</th>"+
+        "<th>Start Date</th>"+
+        "<th>Actions</th>";
 
-
-// Template literal ES6 feature
-const createInnerHtml = () => {
-    const headerHtml = "<th></th><th>Name</th><th>Gender</th><th>Department</th>"+
-                        "<th>Salary</th><th>Start Date</th><th>Actions</th>";
-                        let innerHtml = `${headerHtml}`;
-if(employeePayrollList.length==0)return;                    
-for (const employeePayrollData of employeePayrollList)
- {
-   innerHtml = `${innerHtml}
-  <tr>
-    <td><img class="Profile" src="${employeePayrollData._profilePic}" alt=""></td>
-    <td>${employeePayrollData._name}</td>
-    <td>${employeePayrollData._gender}</td>
-    <td>${getDeptHtml(employeePayrollData._department)}</td>
-    <td>${employeePayrollData._salary}</td>
-    <td>${employeePayrollData._startDate}</td>
-    <td>
-    <img id="${employeePayrollData._id}" onclick="remove(this)"
-                          src="../images/delete-black-18dp.svg" alt="delete">
-      <img id="${employeePayrollData._id}" onclick="update(this)"
-                               src="../images/create-black-18dp.svg" alt="edit">
-     </td>
-     </tr>
-       `;
-  }
-                    
-document.querySelector('#display').innerHTML = innerHtml;
-}
-const getDeptHtml = (deptList) => {
-    let deptHtml = '';
-    for (const dept of deptList) {
-        deptHtml = `${deptHtml} <div class='dept-label'>${dept}</div>`
+    if (empPayrollList.length==0){
+        console.log("No data found in Local Storage")
+        return;
     }
-    return deptHtml;
+    let innerHTML=`${headerHTML}`;
+    for(const empData of empPayrollList){
+        innerHTML=`${innerHTML}
+        <tr>
+            <td><img class="profile" src="${empData._profilePic}" alt="Profile Pic"></td>
+            <td>${empData._name}</td>
+            <td>${empData._gender}</td>
+            <td>${getDeptHTML(empData._department)}</td>
+            <td>RS ${empData._salary}</td>
+            <td>${stringifyDate(empData._startDate)}</td>
+            <td>
+                <img id="${empData._id}" onclick="remove(this)" alt="delete" src="./images/delete-black-18dp.svg">
+                <img id="${empData._id}" onclick="update(this)" alt="edit" src="./images/create-black-18dp.svg">
+            </td>
+        </tr>
+        `;
+    }
+    document.querySelector('#table-display').innerHTML = innerHTML;
 }
 
-const createEmployeePayrollJSON = () => {
- let employeePayrollListLocal = [
-   {
-            _name: 'Kajal Wankhede',
-            _gender: 'Female',
-            _department: [
-                'HR',
-                'Finance'
-            ],
-            _salary: '3000000',
-            _startDate: '1 November 2020',
-            _note: '',
+function getDeptHTML(deptList){
+    let deptHTML = '';
+    for(const dept of deptList){
+        deptHTML = `${deptHTML}<div class="dept-label">${dept}</div>`
+    }
+    return deptHTML;
+}
+
+function createEmployeePayrollJson(){
+    let empPayrollLocalList = [
+        {
+            _name:'Narayan Mahadevan',
+            _gender:'Male',
+            _department:['Engineering','Finance'],
+            _salary:'500000',
+            _startDate:'29 Oct 2019',
+            _note:'',
             _id: new Date().getTime(),
-            _profilePic: '../ProfileImages/Ellipse -1.png'
+            _profilePic:'./Assets/profile-images/Ellipse -5.png'
         },
         {
-            _name: 'Jitendra Jadhav',
-            _gender: 'Male',
-            _department: [
-                'Sales'
-            ],
-            _salary: '5000000',
-            _startDate: '20 October 2019',
-            _note: '',
-            _id: new Date().getTime() + 1,
-            _profilePic: '../ProfileImages/Ellipse -2.png'
+            _name:'Amarpa Shashanka',
+            _gender:'Female',
+            _department:['Sales'],
+            _salary:'400000',
+            _startDate:'18 Nov 2020',
+            _note:'',
+            _id: new Date().getTime()+1,
+            _profilePic:'./Assets/profile-images/Ellipse -7.png'
         }
-    ];
-    return employeePayrollListLocal;
+    ]
+    return empPayrollLocalList;
 }
 
+function remove(node){
+    let empPayrollData = empPayrollList.find(empData=>empData._id == node.id);
+    if(!empPayrollData){
+        console.log("No entry found!!");
+        return;
+    }
+    const index = empPayrollList.map(empData=>empData._id)
+                                .indexOf(empPayrollData._id);
+    empPayrollList.splice(index,1);
+    localStorage.setItem("EmployeePayrollList",JSON.stringify(empPayrollList));
+    document.querySelector(".emp-count").textContent = empPayrollList.length;
+    createInnerHTML();
+}
 
-const remove = (node) => {
-    let employeePayrollData = employeePayrollList.find(empData => empData._id == node._id);
-    if(!employeePayrollData) return;
-    const index = employeePayrollList.map(empData => empData._id).indexOf(employeePayrollData._id);
-    employeePayrollList.splice(index, 1);
-    localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
-    document.querySelector(".emp-count").textContent = employeePayrollList.length;
-    createInnerHtml();
-} 
+function update(node){
+    let empPayrollData = empPayrollList.find(empData=>empData._id == node.id);
+    if(!empPayrollData){
+        console.log("No entry found!!");
+        return;
+    }
+    localStorage.setItem('editEmp', JSON.stringify(empPayrollData,'\t', 2));
+    window.location.replace(site_properties.add_emp_payroll_page);
+}

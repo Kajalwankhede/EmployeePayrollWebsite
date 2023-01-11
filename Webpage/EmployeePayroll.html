@@ -18,7 +18,7 @@
             </div>
         </header>
         <div class="form-content">
-            <form class="form" action="#"onreset="resetForm()"onsubmit="save()">
+            <form class="form" action="#" onsubmit="saveNreset(); return false">
                 <div class="form-head">Employee Payroll Form</div>
                 <div class="row-content">
                     <label class="label text" 
@@ -84,7 +84,7 @@
                     </div>
                   <div class="row-content">
                         <label class="label text" for="startDate">Start Date: </label>
-                       <div>
+                       <div id="date">
                         <select id="day" name="Day">
                         <option value="1">01</option>
                         <option value="2">02</option>
@@ -140,7 +140,9 @@
                         <option value="2016">2016</option>
                         </select>
                  </div>
+                 <error-output class="date-error" for="startDate"></error-output>
                </div>
+
                <div class="row-content">
                 <label class="label text" for="notes">Notes</label>
                 <textarea id="notes" class="input" name="Notes" placeholder="Note.." style="height:100px"></textarea>
@@ -154,7 +156,9 @@
             </div>
 
             </form>
-            <script defer src="../javascript/EmployeePayroll.js"></script>
+            <script src="../javascript/EmployeePayroll.js"></script>
+            <script src="../javascript/site-properties.js"></script>
+            <script src="../javascript/utility.js"></script>
         </div>    
     </body>
 </html>
